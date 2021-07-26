@@ -1,10 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import styled from 'styled-components';
 import DropdownMenu from '@catfishkrenzer/react-auto-dropdown-menu';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBars} from '@fortawesome/free-solid-svg-icons'
 //Pages
 import HomePage from './pages/HomePage';
+import AwsGuide from './pages/AwsGuide/AwsGuidePost';
 import "./App.css";
 
 const AppContainer = styled.main`
@@ -67,11 +69,19 @@ function App() {
           </DropdownMenu>
 
           <br />
-          <DropdownMenu title={<a href="/blog"><MenuSectionTitle>BLOG</MenuSectionTitle></a>} enableChevron={false}>
-            <MenuSectionLink href="">Gym</MenuSectionLink>
-            <MenuSectionLink href="">Personal Finance</MenuSectionLink>
-            <MenuSectionLink href="">Software</MenuSectionLink>
-            <MenuSectionLink href="">Minimalism</MenuSectionLink>
+          <DropdownMenu title={<MenuSectionTitle>BLOG</MenuSectionTitle>} enableChevron={true} children={[
+            <DropdownMenu title={<MenuSectionTitle>AWS Study Guide</MenuSectionTitle>} children={[
+              <DropdownMenu title={<MenuSectionTitle>Services</MenuSectionTitle>} children={[
+                <MenuSectionLink href="/aws-guide/ec2">EC2</MenuSectionLink>
+              ]}>
+              </DropdownMenu>,
+              <DropdownMenu title={<MenuSectionTitle>Topics</MenuSectionTitle>} children={[
+                <MenuSectionLink href="/aws-guide/ec2">Compute</MenuSectionLink>
+              ]}>
+              </DropdownMenu>
+              ]}>
+            </DropdownMenu>
+            ]}>
           </DropdownMenu>
 
           <br />
@@ -81,7 +91,12 @@ function App() {
           <MenuSectionLink href="https://github.com/CatfishKrenzer/">Personal Github</MenuSectionLink>
         </DropdownMenu>
       </Header>
-      <HomePage />
+      <Router>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          <Route path="/aws-guide/:guide" component={AwsGuide} />
+    </Router>
     </AppContainer>
   );
 }
